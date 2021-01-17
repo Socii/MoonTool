@@ -1,5 +1,5 @@
 # MoonTool
-A Swift framework containing an astronomical model of the Moon, including properties to obtain the age, percent illuminated, phase, transitions, and other properties of the Moon at a point in time. This is a Swift port of John Walker's `moontool.c`, originally written in 1987.
+A Swift framework containing an astronomical model of the Moon, including properties to obtain the age, percent illuminated, phase, transitions, and other properties of the Moon at a point in time. This is a Swift port of John Walker's `moontool.c`, originally written in 1987. https://www.fourmilab.ch/moontool/
 
 ## Usage
 Import the `MoonTool.framework` into your project.
