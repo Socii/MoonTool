@@ -18,7 +18,6 @@
 		3A434170232C17E300BA0153 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A43416F232C17E300BA0153 /* Debug.swift */; };
 		3A9ED97223632C9D00E0B2DD /* Moon+Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9ED97123632C9D00E0B2DD /* Moon+Transition.swift */; };
 		3A9ED97423632CE600E0B2DD /* Moon+Phase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9ED97323632CE600E0B2DD /* Moon+Phase.swift */; };
-		3A9ED97623632E2700E0B2DD /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9ED97523632E2700E0B2DD /* Model.swift */; };
 		3AE0A9CA236B220100C0B22F /* JulianTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE0A9C9236B220100C0B22F /* JulianTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,7 +46,6 @@
 		3A43416F232C17E300BA0153 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		3A9ED97123632C9D00E0B2DD /* Moon+Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Moon+Transition.swift"; sourceTree = "<group>"; };
 		3A9ED97323632CE600E0B2DD /* Moon+Phase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Moon+Phase.swift"; sourceTree = "<group>"; };
-		3A9ED97523632E2700E0B2DD /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		3AE0A9C9236B220100C0B22F /* JulianTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JulianTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,7 +125,6 @@
 				3A434169232C168900BA0153 /* Moon.swift */,
 				3A9ED97123632C9D00E0B2DD /* Moon+Transition.swift */,
 				3A9ED97323632CE600E0B2DD /* Moon+Phase.swift */,
-				3A9ED97523632E2700E0B2DD /* Model.swift */,
 			);
 			path = Moon;
 			sourceTree = "<group>";
@@ -241,7 +238,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A9ED97623632E2700E0B2DD /* Model.swift in Sources */,
 				3A9ED97423632CE600E0B2DD /* Moon+Phase.swift in Sources */,
 				3A43416E232C168900BA0153 /* Moon.swift in Sources */,
 				3A434170232C17E300BA0153 /* Debug.swift in Sources */,
