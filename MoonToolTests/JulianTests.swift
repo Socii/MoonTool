@@ -71,7 +71,7 @@ class JulianTests: XCTestCase {
     
     for (date, result) in tests {
       XCTAssertNotNil(date)
-      let julianDate = JulianDay(from: date!)
+      let julianDate = JulianDate(from: date!)
 //      logln("Date: \(date)\nExpected:   \(result)\nJulian.day: \(julianDate)\nDifference: \(abs(result - julianDate))")
       XCTAssertEqual(julianDate, result)
     }
