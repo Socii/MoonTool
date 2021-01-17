@@ -5,83 +5,18 @@
 
 import Foundation
 
-// MARK: Transition
+// MARK: Interface
 
-extension Moon {
+public extension Moon {
   
-  /// The transitions of the moon: **New Moon,
-  /// First Quarter, Full Moon,** and **Second Quarter**
-  public enum Transition {
-    /// New moon.
-    case new
-    /// First quarter.
-    case first
-    /// Full moon.
-    case full
-    /// Second quarter.
-    case second
-  }
-}
-
-// MARK: - Custom String Convertable
-
-extension Moon.Transition: CustomStringConvertible {
-  
-  public var description: String {
-    switch self {
-    case .new: return "New Moon"
-    case .first: return "First Quarter"
-    case .full: return "Full Moon"
-    case .second: return "Second Quarter"
-    }
-  }
-}
-
-// MARK: - Interface
-
-extension Moon.Transition {
-    
-  /// The point in the lunar cycle at which
-  /// the transition occurs.
-  var index: Double {
-    switch self {
-    case .new: return 0.0
-    case .first: return 0.25
-    case .full: return 0.5
-    case .second: return 0.75
-    }
-  }
-  
-  fileprivate static func trueDate(_ meanPhase: Double, _ transition: Self) -> Moon.TransitionDate {
-    return (transition, Moon.truePhase(meanPhase, transtition: transition).date)
-  }
-}
-
-extension Moon {
-
-  /// A tuple array containing the date of each
-  /// transition in a cycle:
-  ///
-  /// The array index of each transition is:
-  ///
-  /// + `[0] New moon`
-  /// + `[1] First quarter`
-  /// + `[2] Full moon`
-  /// + `[3] Second quarter`
-  /// + `[4] Next new moon`
-  public typealias Transitions = [TransitionDate]
-
-  /// A tuple containing the date for a transition.
-  public typealias TransitionDate = (transition: Transition, date: Date)
-
   /// The transitions in the current lunar cycle.
-  public var transitions: Transitions {
+  var transitions: Transitions {
     return Moon.transitions(for: date)
   }
   
   /// The upcoming transitions in the current
   /// lunar cycle.
-  public var nextTransitions: Transitions {
+  var nextTransitions: Transitions {
     var next = transitions
     next.removeAll { $0.date < date }
     return next
@@ -89,12 +24,20 @@ extension Moon {
 
   /// The next transition in the current
   /// lunar cycle.
-  public var nextTransition: TransitionDate {
+  var nextTransition: TransitionDate {
     return nextTransitions.first!
   }
+}
+
+// MARK: - Model
+
+public extension Moon {
   
   /// The transitions in a lunar cycle for a given date.
-  public static func transitions(for date: Date) -> Transitions {
+  ///
+  /// - Parameter date: The date.
+  ///
+  static func transitions(for date: Date) -> Transitions {
     
     let gregorian = Calendar(identifier: .gregorian)
     
@@ -109,7 +52,7 @@ extension Moon {
     guard let month = components.month
       else { preconditionFailure("Unable to retrive month") }
     
-    let day = JulianDay(from: date)
+    let day = JulianDate(from: date)
     
     var k1 = floor((Double(year) + ((Double(month) - 1) * (1.0 / 12.0)) - 1900) * 12.3685)
     
@@ -135,6 +78,89 @@ extension Moon {
     transitions.append(Transition.trueDate(k1, .second))
     transitions.append(Transition.trueDate(k2, .new))
     return transitions
+  }
+  
+  /// A tuple array containing the date of each
+  /// transition in a cycle:
+  ///
+  /// The array index of each transition is:
+  ///
+  /// + `[0] New moon`
+  /// + `[1] First quarter`
+  /// + `[2] Full moon`
+  /// + `[3] Second quarter`
+  /// + `[4] Next new moon`
+  ///
+  typealias Transitions = [TransitionDate]
+
+  /// A tuple containing the date for a transition.
+  ///
+  typealias TransitionDate = (transition: Transition, date: Date)
+}
+ 
+// MARK: - Transition Definition
+
+public extension Moon {
+  
+  /// The transitions of the moon: **New Moon,
+  /// First Quarter, Full Moon,** and **Second Quarter**
+  enum Transition {
+    /// New moon.
+    case new
+    /// First quarter.
+    case first
+    /// Full moon.
+    case full
+    /// Second quarter.
+    case second
+  }
+}
+
+// MARK: - Transition Custom String Convertable
+
+extension Moon.Transition: CustomStringConvertible {
+  
+  public var description: String {
+    switch self {
+    case .new: return "New Moon"
+    case .first: return "First Quarter"
+    case .full: return "Full Moon"
+    case .second: return "Second Quarter"
+    }
+  }
+}
+
+// MARK: - Transition Interface
+
+extension Moon.Transition {
+    
+  /// The point in the lunar cycle at which
+  /// the transition occurs.
+  var index: Double {
+    switch self {
+    case .new: return 0.0
+    case .first: return 0.25
+    case .full: return 0.5
+    case .second: return 0.75
+    }
+  }
+}
+
+// MARK: - Transition Model
+
+fileprivate extension Moon.Transition {
+  
+  /// The calculated true date of the transition.
+  ///
+  /// - Parameters:
+  ///   - meanPhase: The mean phase of the moon.
+  ///   - transition: The transition.
+  ///
+  static func trueDate(_ meanPhase: Double, _ transition: Self) -> Moon.TransitionDate {
+    
+    return (transition: transition,
+            date: Moon.truePhase(meanPhase,
+                           transtition: transition).date)
   }
 }
 
