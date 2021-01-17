@@ -8,43 +8,69 @@ import Foundation
 // MARK: Math
 
 /// Solve the equation of Kepler.
+///
 /// - Parameters:
-///   - degrees: The angle in degrees.
+///   - m: Mean phase.
+///   - ecc: Eccentricity.
+///
 func kepler(_ m: Double, _ ecc: Double) -> Double {
+  
   let epsilon = 1e-6
   let rad = deg2rad(m)
   var e = rad
+  
   var check = false
   repeat {
     let delta = e - ecc * sin(e) - rad
     e = e - delta / (1.0 - ecc * cos(e))
     if abs(delta) <= epsilon { check = true }
   } while check == false
+  
   return e
 }
 
 /// Arc-seconds to degrees
-func aSec(_ x: Double) -> Double {
-  return x / 3600.0
+///
+/// - Parameter a: Arc-seconds.
+///
+func aSec(_ a: Double) -> Double {
+  
+  return a / 3600.0
 }
 
-/// Degrees to radians
+/// Converts degrees to radians.
+///
+/// - Parameter d: Degrees.
+///
 func deg2rad(_ d: Double) -> Double {
+  
   return d * (.pi / 180)
 }
 
-/// Radians to degrees
+/// Converts radians to degrees.
+///
+/// - Parameter r: Radians.
+///
 func rad2deg(_ r: Double) -> Double {
+  
   return r / (.pi / 180)
 }
 
-/// Range reduce an angle in degrees
+/// Range reduces an angle in degrees.
+///
+/// - Parameter d: Degrees.
+///
 func fixangle(_ d: Double) -> Double {
+  
   return d - 360.0 * (floor(d / 360.0))
 }
 
-/// Range reduce an angle in radians
+/// Range reduces an angle in radians.
+///
+/// - Parameter r: Radians.
+///
 func fixangr(_ r: Double) -> Double {
+  
   return r - (.pi * 2) * (floor(r / (.pi * 2)))
 }
 
