@@ -9,14 +9,37 @@ import Foundation
 
 public extension Date {
   
+  /// Returns the current date adjusted for daylight saving.
   var adjusted: Date {
     return addingTimeInterval(TimeZone.current.daylightSavingTimeOffset())
   }
   
-  /// Returns the current date adjusted for daylight saving.
   static var currentUTC: Date {
     return Date().adjusted
   }
+  
+  /// 1900 January, 12:00 noon.
+  static let jan1900: Date = {
+    
+    let gregorian = Calendar(identifier: .gregorian)
+    
+    guard let timezone = TimeZone(identifier: "UTC")
+      else { preconditionFailure("Unable to create timezone") }
+    
+    let components = DateComponents(calendar: gregorian,
+                                    timeZone: timezone,
+                                    year: 1900,
+                                    month: 1,
+                                    day: 0,
+                                    hour: 12,
+                                    minute: 0,
+                                    second: 0)
+    
+    guard let date = components.date
+      else { preconditionFailure("Unable to create date") }
+    
+    return date
+  }()
 }
 
 // MIT License:
