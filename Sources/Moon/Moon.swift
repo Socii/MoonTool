@@ -17,8 +17,10 @@ import Foundation
 /// An instance of `Moon` contains position, current phase,
 /// percent illuminated, age, and other properties of the
 /// Moon at a given point in time.
+///
 public struct Moon {
 
+  /// The date.
   public let date: Date
   
   /// The completed percentage of the current cycle.
@@ -69,16 +71,93 @@ public struct Moon {
   /// The suns angular diameter, in kilometers.
   public let sunAngularDiameter: Double
   
-  /// Create a new `Moon` at a given date.
+  /// Create an instance of `Moon` at a given date.
+  ///
   /// - Parameter at: The date.
+  ///
   public init(at date: Date) {
+    self.date = date
+    let calculated = Moon.initialCalculations(for: date)
+    cycleIndex = calculated.cycleIndex
+    illuminated = calculated.illuminated
+    age = calculated.age
+    distance = calculated.distance
+    angularDiameter = calculated.angularDiameter
+    eclipticLongitute = calculated.eclipticLongitute
+    eclipticLatitude = calculated.eclipticLatitude
+    parallax = calculated.parallax
+    sunDistance = calculated.sunDistance
+    sunAngularDiameter = calculated.sunAngularDiameter
+  }
+  
+  /// Create an instance of `Moon` at a given Julian Date.
+  ///
+  /// - Parameter at: The Julian Date.
+  ///
+  public init(at julianDate: JulianDate) {
+    self.date = julianDate.date
+    let calculated = Moon.initialCalculations(for: date)
+    cycleIndex = calculated.cycleIndex
+    illuminated = calculated.illuminated
+    age = calculated.age
+    distance = calculated.distance
+    angularDiameter = calculated.angularDiameter
+    eclipticLongitute = calculated.eclipticLongitute
+    eclipticLatitude = calculated.eclipticLatitude
+    parallax = calculated.parallax
+    sunDistance = calculated.sunDistance
+    sunAngularDiameter = calculated.sunAngularDiameter
+  }
+}
+
+// MARK: - Custom String Convertable
+
+extension Moon: CustomStringConvertible {
+  
+  public var description: String {
+    var string = ""
+    string.append("Date: \(date)\n")
+    string.append("Phase: \(phase)\n")
+    string.append("Age: \(age.rounded(to: 2)) days\n")
+    string.append("Distance: \(distance.rounded(to: 6)) km\n")
+    string.append("Illuminated: \(illuminated.rounded(to: 2)) %\n")
+    string.append("Angular Diameter: \(angularDiameter.rounded(to: 6))\n")
+    string.append("Ecliptic Longitutde: \(eclipticLongitute.rounded(to: 6))\n")
+    string.append("Ecliptic Latitude: \(eclipticLatitude.rounded(to: 6))\n")
+    string.append("Parallax: \(parallax.rounded(to: 6))\n")
+    return string
+  }
+}
+
+// MARK: - Model
+
+extension Moon {
+  
+  /// A tuple containing the properties of the moon.
+  ///
+  private typealias Calculated = (cycleIndex: Double,
+                                  illuminated: Double,
+                                  age: Double,
+                                  distance: Double,
+                                  angularDiameter: Double,
+                                  eclipticLongitute: Double,
+                                  eclipticLatitude: Double,
+                                  parallax: Double,
+                                  sunDistance: Double,
+                                  sunAngularDiameter: Double)
+  
+  /// Calculate the properties of the moon for a given date.
+  ///
+  /// - Parameter date: The date.
+  ///
+  private static func initialCalculations(for date: Date) -> Calculated {
     
     // Calculation of the Sun's position
     
-    let day = JulianDay(from: date) - Epoch1980.julianDay
+    let jd = JulianDate(from: date) - Epoch1980.julianDate
     
     // Mean anomaly of the Sun
-    let N = fixangle((360 / 365.2422) * day)
+    let N = fixangle((360 / 365.2422) * jd)
     
     // Convert from perigee coordinates to epoch 1980
     let M = fixangle(N + Epoch1980.Sun.eclipticLongitude - Sun.eclipticLongitudeAtPerigee)
@@ -103,13 +182,13 @@ public struct Moon {
     // Calculation of the Moon's position
     
     // Moon's mean longitude
-    let moon_longitude = fixangle(13.1763966 * day + Epoch1980.Moon.meanLongitude)
+    let moon_longitude = fixangle(13.1763966 * jd + Epoch1980.Moon.meanLongitude)
 
     // Moon's mean anomaly
-    let MM = fixangle(moon_longitude - 0.1114041 * day - Epoch1980.Moon.meanPerigee)
+    let MM = fixangle(moon_longitude - 0.1114041 * jd - Epoch1980.Moon.meanPerigee)
 
     // Moon's ascending node mean longitude
-    let MN = fixangle(Epoch1980.Moon.nodeMeanLongitude - 0.0529539 * day)
+    let MN = fixangle(Epoch1980.Moon.nodeMeanLongitude - 0.0529539 * jd)
     
     let evection = 1.2739 * sin(deg2rad(2 * (moon_longitude - lambda_sun) - MM))
 
@@ -174,36 +253,86 @@ public struct Moon {
     // Calculate Moon's parallax (unused?)
     let moon_parallax = Moon.parallax / moon_diam_frac
     
-    self.date = date
-    cycleIndex = fixangle(moon_age) / 360.0
-    illuminated = moon_phase * 100
-    age = Moon.synodicMonth * fixangle(moon_age) / 360.0
-    distance = moon_dist
-    angularDiameter = moon_angular_diameter
-    eclipticLongitute = lambda_moon
-    eclipticLatitude = BetaM
-    parallax = moon_parallax
-    sunDistance = sun_dist
-    sunAngularDiameter = sun_angular_diameter
+    return Calculated(cycleIndex: fixangle(moon_age) / 360.0,
+                      illuminated: moon_phase * 100,
+                      age: Moon.synodicMonth * fixangle(moon_age) / 360.0,
+                      distance: moon_dist,
+                      angularDiameter: moon_angular_diameter,
+                      eclipticLongitute: lambda_moon,
+                      eclipticLatitude: BetaM,
+                      parallax: moon_parallax,
+                      sunDistance: sun_dist,
+                      sunAngularDiameter: sun_angular_diameter)
   }
+  
+  /// Inclination of the Moon's orbit.
+  static let inclination = 5.145396
+
+  /// Eccentricity of the Moon's orbit.
+  static let eccentricity = 0.054900
+
+  /// Moon's angular size at distance a from earth.
+  static let angularSize = 0.5181
+
+  /// Semi-major axis of the Moon's orbit, in kilometers.
+  static let semiMajorAxis = 384401.0
+  
+  /// Parallax at a distance from earth.
+  static let parallax = 0.9507
+
+  /// Synodic month (New Moon to New Moon), in days.
+  static let synodicMonth = 29.53058868
+
+  /// Base date for E. W. Brown's numbered
+  /// series of lunations (1923 January 16).
+  static let lunationsBase: JulianDate = 2423436.0
 }
 
-// MARK: - Custom String Convertable
-
-extension Moon: CustomStringConvertible {
+/// Properties of the sun.
+enum Sun {
+ 
+  /// Ecliptic longitude of the Sun at perigee.
+  static let eclipticLongitudeAtPerigee = 282.596403
   
-  public var description: String {
-    var string = ""
-    string.append("Date: \(date)\n")
-    string.append("Phase: \(phase)\n")
-    string.append("Age: \(age.round(to: 2)) days\n")
-    string.append("Distance: \(distance.round(to: 6)) km\n")
-    string.append("Illuminated: \(illuminated.round(to: 2)) %\n")
-    string.append("Angular Diameter: \(angularDiameter.round(to: 6))\n")
-    string.append("Ecliptic Longitutde: \(eclipticLongitute.round(to: 6))\n")
-    string.append("Ecliptic Latitude: \(eclipticLatitude.round(to: 6))\n")
-    string.append("Parallax: \(parallax.round(to: 6))\n")
-    return string
+  /// Semi-major axis of Sun's orbit, in kilometers.
+  static let semiMajorAxis = 1.49585e8
+  
+  /// Sun's angular size, in degrees, at semi-major axis distance.
+  static let angularSizeAtSemiMajorAxis = 0.533128
+}
+
+/// Properties of the Earth.
+enum Earth {
+  
+  /// The radius of the Earth, in kilometers.
+  static let radius = 6378.16
+  
+  /// Eccentricity of Earth's orbit.
+  static let eccentricity = 0.016718
+}
+
+/// Orbit elements for epoch 1980.0
+enum Epoch1980 {
+  
+  /// Julian date for 1980 January 0.0.
+  static let julianDate: JulianDate = 2444238.5
+  
+  enum Sun {
+    
+    /// Ecliptic longitude of the Sun at epoch.
+    static let eclipticLongitude = 278.833540
+  }
+  
+  enum Moon {
+    
+    /// Moon's mean longitude at the epoch.
+    static let meanLongitude = 64.975464
+    
+    /// Mean longitude of the perigee at the epoch.
+    static let meanPerigee = 349.383063
+    
+    /// Mean longitude of the node at the epoch.
+    static let nodeMeanLongitude = 151.950429
   }
 }
 
