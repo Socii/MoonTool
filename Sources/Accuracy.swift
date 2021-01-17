@@ -7,16 +7,24 @@ import Foundation
 
 // MARK: Tolerances & Rounding
 
-enum Tolerance {
+// Infix operator for approximately equal to.
+infix operator ≈≈
+
+// MARK: - Model
+
+private enum Tolerance {
+  
+  /// Returns the number rounded to a given number
+  /// of decimal places.
+  ///
+  /// - Parameter places: The number of decimal places.
+  ///
   static func decimalPlaces(_ places: Int) -> Double {
     return 1.0 / pow(10, Double(places))
   }
 }
 
-// Infix operator for approximately equal to.
-infix operator ≈≈
-
-// Approximation operators.
+// MARK: - Foundation Extensions
 
 extension FloatingPoint {
   
@@ -30,9 +38,11 @@ extension Double {
   
   /// Return a `Double` rounded to the specified
   /// number of decimal places.
+  ///
   /// - Parameters:
   ///   - to: The number of decimal places.
-  func round(to: Int) -> Double {
+  ///
+  func rounded(to: Int) -> Double {
     let multiplier = pow(10, Double(to))
     return Darwin.round(self * multiplier) / multiplier
   }
