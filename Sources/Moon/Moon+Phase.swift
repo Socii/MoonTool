@@ -5,63 +5,7 @@
 
 import Foundation
 
-// MARK: Phase
-
-extension Moon {
-    
-  /// The four phases of a lunar cycle:
-  /// **Waxing Crescent, Waxing Gibbous,
-  /// Waning Gibbous,** and **Waning Crescent.**
-  public enum Phase {
-    case waxingCrescent
-    case waxingGibbous
-    case waningGibbous
-    case waningCrescent
-  }
-}
-
-// MARK: - Custom String Convertable
-
-extension Moon.Phase: CustomStringConvertible {
-  
-  public var description: String {
-    switch self {
-    case .waxingCrescent: return "Waxing Crescent"
-    case .waxingGibbous: return "Waxing Gibbous"
-    case .waningGibbous: return "Waning Gibbous"
-    case .waningCrescent: return "Waning Crescent"
-    }
-  }
-}
-
-// MARK: - Interface
-
-extension Moon.Phase {
-  
-  /// The range of the phase in the lunar cycle.
-  public var range: Range<Double> {
-    switch self {
-    case .waxingCrescent: return 0..<0.25
-    case .waxingGibbous: return 0.25..<0.5
-    case .waningGibbous: return 0.5..<0.75
-    case .waningCrescent: return 0.75..<1
-    }
-  }
-  
-  /// Returns the `Phase` at the guven point in the
-  /// lunar cycle.
-  /// - Precondition: `index` must be in the range `0..<1`
-  /// - Parameter index: The index in the lunar cycle.
-  public static func at(_ index: Double) -> Self {
-    switch index {
-    case 0.00..<0.25: return .waxingCrescent
-    case 0.25..<0.50: return .waxingGibbous
-    case 0.50..<0.75: return .waningGibbous
-    case 0.75..<1.00: return .waxingGibbous
-    default: preconditionFailure("Phase must be in the range 0..<1")
-    }
-  }
-}
+// MARK: Interface
 
 extension Moon {
   
@@ -69,6 +13,11 @@ extension Moon {
   public var phase: Phase {
     return Moon.Phase.at(cycleIndex)
   }
+}
+
+// MARK: - Model
+
+extension Moon {
   
   /// Calculates time of the mean new Moon
   /// for a given base date.
@@ -80,26 +29,26 @@ extension Moon {
   /// ```
   /// where `year` is expressed as a year
   /// and fractional year.
-  static func meanPhase(at day: JulianDay, k: Double) -> JulianDay {
+  ///
+  static func meanPhase(at date: JulianDate, k: Double) -> JulianDate {
 
     // Time in Julian centuries from 1900 January 0.5
-    let t = (day - JulianDay(from: Date.jan1900)) / JulianCalendar.Century.days
+    let t = (date - JulianDate(from: Date.jan1900))
+            / JulianCalendar.Century.days
     
-    // square for frequent use
+    // square
     let t2 = t * t
     // and cube
     let t3 = t2 * t
     
-    let nt1 = 2415020.75933
+    return 2415020.75933
       + Moon.synodicMonth * k
       + 0.0001178 * t2
       - 0.000000155 * t3
       + 0.00033 * sin(deg2rad(166.56 + 132.87 * t - 0.009173 * t2))
-    
-    return nt1
   }
   
-  static func truePhase(_ meanPhase: Double, transtition: Transition) -> JulianDay {
+  static func truePhase(_ meanPhase: Double, transtition: Transition) -> JulianDate {
 
     // Add phase to new moon time
     // Time in Julian centuries from 1900 January 0.5
@@ -181,20 +130,73 @@ extension Moon {
   }
 }
 
-// MARK: - Date Extension
+// MARK: - Phase Definition
 
-fileprivate extension Date {
+extension Moon {
+    
+  /// The four phases of a lunar cycle:
+  /// **Waxing Crescent, Waxing Gibbous,
+  /// Waning Gibbous,** and **Waning Crescent.**
+  public enum Phase {
+    /// Waxing Crescent.
+    case waxingCrescent
+    /// Waxing Gibbous.
+    case waxingGibbous
+    /// Waning Gibbous.
+    case waningGibbous
+    /// Waning Crescent.
+    case waningCrescent
+  }
+}
+
+// MARK: - Phase Custom String Convertable
+
+extension Moon.Phase: CustomStringConvertible {
   
-  /// 1900 January 0.5
-  static let jan1900: Date = {
-    let gregorian = Calendar(identifier: .gregorian)
-    guard let timezone = TimeZone(identifier: "UTC")
-      else { preconditionFailure("Unable to create timezone") }
-    let components = DateComponents(calendar: gregorian, timeZone: timezone, year: 1900, month: 1, day: 0, hour: 12, minute: 0, second: 0)
-    guard let date = components.date
-      else { preconditionFailure("Unable to create date") }
-    return date
-  }()
+  public var description: String {
+    switch self {
+    case .waxingCrescent: return "Waxing Crescent"
+    case .waxingGibbous: return "Waxing Gibbous"
+    case .waningGibbous: return "Waning Gibbous"
+    case .waningCrescent: return "Waning Crescent"
+    }
+  }
+}
+
+// MARK: - Phase Interface
+
+extension Moon.Phase {
+  
+  /// The range of the phase in the lunar cycle.
+  var range: Range<Double> {
+    switch self {
+    case .waxingCrescent: return 0..<0.25
+    case .waxingGibbous: return 0.25..<0.5
+    case .waningGibbous: return 0.5..<0.75
+    case .waningCrescent: return 0.75..<1
+    }
+  }
+}
+
+// MARK: - Phase Model
+
+extension Moon.Phase {
+  
+  /// Returns the `Phase` at the guven point in the
+  /// lunar cycle.
+  ///
+  /// - Precondition: `index` must be in the range `0..<1`
+  /// - Parameter index: The index in the lunar cycle.
+  ///
+  static func at(_ index: Double) -> Self {
+    switch index {
+    case 0.00..<0.25: return .waxingCrescent
+    case 0.25..<0.50: return .waxingGibbous
+    case 0.50..<0.75: return .waningGibbous
+    case 0.75..<1.00: return .waxingGibbous
+    default: preconditionFailure("Phase must be in the range 0..<1")
+    }
+  }
 }
 
 // MIT License:
