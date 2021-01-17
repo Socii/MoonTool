@@ -7,61 +7,68 @@ import Foundation
 
 // MARK: Definition
 
-/// A number representing a day in the
-/// Julian calendar.
+/// A number representing a day plus the fraction of a day
+/// in the Julian calendar.
 ///
-/// `JulianDay` is a type of `Double`, so can
+/// `JulianDate` is a type of `Double`, so can
 /// be created using a literal with type-casting:
 /// ```
-/// let jd: JulianDay = 245845.5
+/// let jd: JulianDate = 245845.5
 /// ```
-/// Create a Julian day from a date:
+/// Create a `JulianDate` from a `Date`:
 /// ```
 /// let now = Date()
-/// let jd = JulianDay(from: now)
+/// let jd = JulianDate(from: now)
 /// ```
-/// Convert a Julian day to a date:
+/// Get the `Date` from a `JulianDate`:
 /// ````
 /// let date = jd.date
 /// ````
-public typealias JulianDay = Double
-public extension JulianDay {
-  
-  /// Return the date of the Julian day.
-  var date: Date {
-    return JulianCalendar.date(from: self)
-  }
-  
-  /// Create a Julian day from a date.
+public typealias JulianDate = Double
+
+public extension JulianDate {
+
+  /// Create a `JulianDate` from an instance of `Date`.
+  ///
+  /// - Parameters:
+  ///   - date: The date.
+  ///
   init(from date: Date) {
-    self = JulianCalendar.day(from: date)
+    self = JulianCalendar.julianDate(from: date)
   }
 }
 
 // MARK: - Interface
 
-enum JulianCalendar {
-
-  /// Return the Julian day from a date.
-  fileprivate static func day(from: Date) -> JulianDay {
-    return (from.timeIntervalSince1970 - zero.timeIntervalSince1970) / Day.seconds
-  }
+public extension JulianDate {
   
-  /// Return the date from a Julian day.
-  /// - Parameter from: The Julian day.
-  fileprivate static func date(from: JulianDay) -> Date {
-    
-    // FIXME: Fails test due to rounding error.
-    let interval = zero.timeIntervalSince1970
-      + ((from - day(from: zero)) * Day.seconds)
-    return Date(timeIntervalSince1970: interval)
+  /// Return an instance of `Date` from the Julian date.
+  var date: Date {
+    return JulianCalendar.date(from: self)
   }
 }
 
 // MARK: - Model
 
-extension JulianCalendar {
+public enum JulianCalendar {
   
+  /// Return the Julian date from a date.
+  fileprivate static func julianDate(from: Date) -> JulianDate {
+    
+    return (from.timeIntervalSince1970 - zero.timeIntervalSince1970) / Day.seconds
+  }
+  
+  /// Return the date from a Julian date.
+  /// - Parameter from: The Julian date.
+  fileprivate static func date(from: JulianDate) -> Date {
+    
+    // FIXME: Fails test due to rounding error.
+    let interval = zero.timeIntervalSince1970
+      + ((from - julianDate(from: zero)) * Day.seconds)
+    
+    return Date(timeIntervalSince1970: interval)
+  }
+
   /// The zero date in the Julian calendar.
   ///
   /// Defined as:
@@ -69,18 +76,24 @@ extension JulianCalendar {
   /// **UTC 12:00:00 — 01, January, 4712 B.C.**
   ///
   /// in the gregorian calendar.
-  fileprivate static let zero: Date = {
+  ///
+  public static let zero: Date = {
+    
     let gregorian = Calendar(identifier: .gregorian)
+    
     guard let utc = TimeZone(identifier: "UTC")
       else { preconditionFailure("Unable to create timezone") }
+    
     let components = DateComponents(calendar: gregorian,
                                     timeZone: utc,
                                     year: -4712,
                                     month: 1,
                                     day: 1,
                                     hour: 12)
+    
     guard let date = components.date
       else { preconditionFailure("Unable to create date") }
+    
     return date
   }()
   
@@ -88,56 +101,48 @@ extension JulianCalendar {
   public enum Century {
     
     /// The number of years in a century.
-    static let years = 100.0
+    public static let years = 100.0
     
     /// The number of days in a century.
-    static var days: Double {
-      return Century.years * Year.days
-    }
+    public static let days = Century.years * Year.days
     
     /// The number of hours in a century.
-    static var hours: Double {
-      return Century.years * Year.hours
-    }
-    
+    public static let hours = Century.years * Year.hours
+        
     /// The number of minutes in a century.
-    static var minutes: Double {
-      return Century.years * Year.minutes
-    }
+    public static let minutes = Century.years * Year.minutes
     
     /// The number of seconds in a century.
-    static var seconds: TimeInterval {
-      return Century.years * Year.seconds
-    }
+    public static let seconds: TimeInterval = Century.years * Year.seconds
   }
   
   /// Properties of a Julian year.
   public enum Year {
     
     /// The number of days in a year.
-    static let days = 365.25
+    public static let days = 365.25
     
     /// The number of hours in a year.
-    static let hours = Year.days * 24
+    public static let hours = Year.days * 24
     
     /// The number of minutes in a year.
-    static let minutes = Year.hours * 60
+    public static let minutes = Year.hours * 60
     
     /// The number of seconds in a year.
-    static let seconds = Year.minutes * 60
+    public static let seconds: TimeInterval = Year.minutes * 60
   }
   
   /// Properties of a Julian day.
   public enum Day {
     
     /// The number of hours in a day.
-    static let hours = 24.0
+    public static let hours = 24.0
     
     /// The number of minutes in a day.
-    static let minutes = Day.hours * 60
+    public static let minutes = Day.hours * 60
     
     /// The number of seconds in a day.
-    static let seconds = Day.minutes * 60
+    public static let seconds: TimeInterval = Day.minutes * 60
   }
 }
 
