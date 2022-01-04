@@ -72,6 +72,7 @@
 		3A434140232C161200BA0153 = {
 			isa = PBXGroup;
 			children = (
+				3A5E16A42784BB1800028305 /* Package.swift */,
 				3A434164232C162600BA0153 /* Sources */,
 				3A43414C232C161200BA0153 /* Resources */,
 				3A434157232C161200BA0153 /* MoonToolTests */,
@@ -110,7 +111,6 @@
 			isa = PBXGroup;
 			children = (
 				3A43414D232C161200BA0153 /* MoonTool.h */,
-				3A5E16A42784BB1800028305 /* Package.swift */,
 				3A434167232C168900BA0153 /* Accuracy.swift */,
 				3A434166232C168900BA0153 /* Date.swift */,
 				3A434165232C168800BA0153 /* Julian.swift */,
