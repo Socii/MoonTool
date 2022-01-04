@@ -44,6 +44,7 @@
 		3A434168232C168900BA0153 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
 		3A434169232C168900BA0153 /* Moon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Moon.swift; sourceTree = "<group>"; };
 		3A43416F232C17E300BA0153 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
+		3A5E16A42784BB1800028305 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		3A9ED97123632C9D00E0B2DD /* Moon+Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Moon+Transition.swift"; sourceTree = "<group>"; };
 		3A9ED97323632CE600E0B2DD /* Moon+Phase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Moon+Phase.swift"; sourceTree = "<group>"; };
 		3AE0A9C9236B220100C0B22F /* JulianTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JulianTests.swift; sourceTree = "<group>"; };
@@ -109,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				3A43414D232C161200BA0153 /* MoonTool.h */,
+				3A5E16A42784BB1800028305 /* Package.swift */,
 				3A434167232C168900BA0153 /* Accuracy.swift */,
 				3A434166232C168900BA0153 /* Date.swift */,
 				3A434165232C168800BA0153 /* Julian.swift */,
