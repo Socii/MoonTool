@@ -8,13 +8,15 @@ let package = Package(
     .iOS(.v15)
   ],
   products: [
-    .library(name: "MoonTool", targets: ["MoonTool"]),
+    .library(
+        name: "MoonTool",
+        targets: ["MoonTool"]
+    )
+  ],
+  dependencies: [
   ],
   targets: [
-    .target(name: "SnapKit", path: "Sources"),
-  ],
-  swiftLanguageVersions: [
-    .v5
+    .target(name: "MoonTool", path: "Sources"),
   ]
 )
 
