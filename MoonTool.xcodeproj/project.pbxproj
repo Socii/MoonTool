@@ -15,7 +15,6 @@
 		3A43416C232C168900BA0153 /* Accuracy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A434167232C168900BA0153 /* Accuracy.swift */; };
 		3A43416D232C168900BA0153 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A434168232C168900BA0153 /* Math.swift */; };
 		3A43416E232C168900BA0153 /* Moon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A434169232C168900BA0153 /* Moon.swift */; };
-		3A434170232C17E300BA0153 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A43416F232C17E300BA0153 /* Debug.swift */; };
 		3A9ED97223632C9D00E0B2DD /* Moon+Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9ED97123632C9D00E0B2DD /* Moon+Transition.swift */; };
 		3A9ED97423632CE600E0B2DD /* Moon+Phase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9ED97323632CE600E0B2DD /* Moon+Phase.swift */; };
 		3AE0A9CA236B220100C0B22F /* JulianTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE0A9C9236B220100C0B22F /* JulianTests.swift */; };
@@ -43,7 +42,6 @@
 		3A434167232C168900BA0153 /* Accuracy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accuracy.swift; sourceTree = "<group>"; };
 		3A434168232C168900BA0153 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
 		3A434169232C168900BA0153 /* Moon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Moon.swift; sourceTree = "<group>"; };
-		3A43416F232C17E300BA0153 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		3A5E16A42784BB1800028305 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		3A9ED97123632C9D00E0B2DD /* Moon+Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Moon+Transition.swift"; sourceTree = "<group>"; };
 		3A9ED97323632CE600E0B2DD /* Moon+Phase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Moon+Phase.swift"; sourceTree = "<group>"; };
@@ -116,7 +114,6 @@
 				3A434165232C168800BA0153 /* Julian.swift */,
 				3A434168232C168900BA0153 /* Math.swift */,
 				3A9ED97023632B4000E0B2DD /* Moon */,
-				3A43416F232C17E300BA0153 /* Debug.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -242,7 +239,6 @@
 			files = (
 				3A9ED97423632CE600E0B2DD /* Moon+Phase.swift in Sources */,
 				3A43416E232C168900BA0153 /* Moon.swift in Sources */,
-				3A434170232C17E300BA0153 /* Debug.swift in Sources */,
 				3A43416A232C168900BA0153 /* Julian.swift in Sources */,
 				3A43416C232C168900BA0153 /* Accuracy.swift in Sources */,
 				3A43416B232C168900BA0153 /* Date.swift in Sources */,
