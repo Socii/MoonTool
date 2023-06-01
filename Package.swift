@@ -5,9 +5,7 @@ import PackageDescription
 let package = Package(
   name: "MoonTool",
   platforms: [
-    .iOS(.v10),
-    .macOS(.v10_11),
-    .tvOS(.v10)
+    .iOS(.v15)
   ],
   products: [
     .library(name: "MoonTool", targets: ["MoonTool"]),
