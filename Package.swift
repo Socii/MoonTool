@@ -5,9 +5,9 @@ import PackageDescription
 let package = Package(
   name: "MoonTool",
   platforms: [
-    .iOS(.v11)
-    .macCatalyst(.v11)
-    .macOS(.v11)
+    .iOS(.v15),
+    .macCatalyst(.v15),
+    .macOS(.v13)
   ],
   products: [
     .library(
