@@ -1,9 +1,4 @@
-// Package.swift
-
-// Copyright © 2022 Kam Dracc. All rights reserved.
-// MIT License @ end of file.
-
-// swift-tools-version:5.8
+// swift-tools-version:5.7
 
 import PackageDescription
 
