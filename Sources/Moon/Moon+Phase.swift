@@ -193,7 +193,7 @@ extension Moon.Phase {
     case 0.00..<0.25: return .waxingCrescent
     case 0.25..<0.50: return .waxingGibbous
     case 0.50..<0.75: return .waningGibbous
-    case 0.75..<1.00: return .waxingGibbous
+    case 0.75..<1.00: return .waningCrescent
     default: preconditionFailure("Phase must be in the range 0..<1")
     }
   }

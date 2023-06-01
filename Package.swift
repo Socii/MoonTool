@@ -1,25 +1,24 @@
-// Package.swift
-
-// Copyright © 2022 Kam Dracc. All rights reserved.
-// MIT License @ end of file.
+// swift-tools-version:5.7
 
 import PackageDescription
 
 let package = Package(
   name: "MoonTool",
   platforms: [
-    .iOS(.v10),
-    .macOS(.v10_11),
-    .tvOS(.v10)
+    .iOS(.v15),
+    .macCatalyst(.v15),
+    .macOS(.v13)
   ],
   products: [
-    .library(name: "MoonTool", targets: ["MoonTool"]),
+    .library(
+        name: "MoonTool",
+        targets: ["MoonTool"]
+    )
+  ],
+  dependencies: [
   ],
   targets: [
-    .target(name: "SnapKit", path: "Sources"),
-  ],
-  swiftLanguageVersions: [
-    .v5
+    .target(name: "MoonTool", path: "Sources"),
   ]
 )
 
